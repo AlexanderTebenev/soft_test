@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:weightSum="2"
-    android:orientation="horizontal"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-   <EditText
-       android:id="@+id/key"
-       android:layout_width="0dp"
-       android:layout_height="wrap_content"
-       android:layout_weight="1"
-       android:hint="key"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-   <EditText
-       android:id="@+id/value"
-       android:layout_width="0dp"
-       android:layout_height="wrap_content"
-       android:layout_weight="1"
-       android:hint="value"/>
+   <data>
 
-</LinearLayout>
+         <variable
+             name="keyValueObject"
+             type="com.example.soft.model.KeyValueObject"/>
+
+   </data>
+
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:weightSum="2"
+       android:orientation="horizontal">
+
+      <EditText
+          android:id="@+id/key"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="@={keyValueObject.key}"
+          android:hint="key" />
+
+      <EditText
+          android:id="@+id/value"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:text="@={keyValueObject.value}"
+          android:hint="value" />
+
+   </LinearLayout>
+</layout>

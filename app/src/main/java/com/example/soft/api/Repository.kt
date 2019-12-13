@@ -1,26 +1,31 @@
 package remote.retrofit
 
-import android.content.Context
-import okhttp3.RequestBody
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.Main
 import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Url
-import android.content.ClipData.Item
-import io.reactivex.*
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.internal.operators.single.SingleInternalHelper.toObservable
-import io.reactivex.schedulers.Schedulers
-import okhttp3.MultipartBody
-import java.io.File
 
 
-class Repository(private val apiService: ApiService) {
+class Repository(private val qrCodeDataSource: QrCodeDataSource) {
 
-     suspend fun createQrCode(size: String,data: String): ResponseBody {
 
-        return apiService.createQrCode(size,data).await()
+    val viewModelJob = SupervisorJob()
+    private val uiScope = CoroutineScope(Dispatchers.IO + viewModelJob)
+
+    var bitmap: MutableLiveData<Bitmap> = MutableLiveData()
+
+    fun loadQrCode(json: String) : MutableLiveData<Bitmap> {
+        uiScope.launch(viewModelJob) {
+
+            var response = qrCodeDataSource.createQrCode("150x150", json)
+            var bitmapResponse=BitmapFactory.decodeStream(response!!.await().byteStream())
+
+            withContext(Main) {
+                bitmap.value = bitmapResponse
+            }
+        }
+        return bitmap
     }
-
 }

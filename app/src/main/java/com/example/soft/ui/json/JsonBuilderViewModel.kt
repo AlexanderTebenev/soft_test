@@ -1,10 +1,10 @@
 package com.example.soft.ui.json
 
 import androidx.lifecycle.ViewModel
-import com.happyfriends.happyfriends.bean.KeyValueObject
 import org.json.JSONObject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.soft.model.KeyValueObject
 
 
 class JsonBuilderViewModel : ViewModel() {
